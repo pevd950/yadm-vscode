@@ -1,0 +1,136 @@
+{
+  "name": "yadm-vscode",
+  "displayName": "yadm Manager",
+  "publisher": "pevd950",
+  "description": "Manage yadm-tracked dotfiles in VS Code",
+  "version": "0.0.1",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pevd950/yadm-vscode.git"
+  },
+  "homepage": "https://github.com/pevd950/yadm-vscode#readme",
+  "bugs": {
+    "url": "https://github.com/pevd950/yadm-vscode/issues"
+  },
+  "keywords": [
+    "yadm",
+    "dotfiles",
+    "git",
+    "source control"
+  ],
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "SCM Providers"
+  ],
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "yadm.refreshTrackedFiles",
+        "title": "Refresh Tracked Files",
+        "category": "Yadm",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "yadm.track",
+        "title": "Track with Yadm",
+        "category": "Yadm",
+        "icon": "$(add)"
+      },
+      {
+        "command": "yadm.stopTracking",
+        "title": "Stop Tracking with Yadm...",
+        "category": "Yadm",
+        "icon": "$(remove)"
+      }
+    ],
+    "views": {
+      "explorer": [
+        {
+          "id": "yadm.trackedFiles",
+          "name": "Yadm Tracked Files",
+          "contextualTitle": "Yadm Tracked Files"
+        }
+      ]
+    },
+    "menus": {
+      "view/title": [
+        {
+          "command": "yadm.refreshTrackedFiles",
+          "when": "view == yadm.trackedFiles",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "yadm.stopTracking",
+          "when": "view == yadm.trackedFiles",
+          "group": "inline"
+        }
+      ],
+      "explorer/context": [
+        {
+          "command": "yadm.track",
+          "when": "resourceScheme == file",
+          "group": "7_modification@10"
+        },
+        {
+          "command": "yadm.stopTracking",
+          "when": "resourceScheme == file",
+          "group": "7_modification@11"
+        }
+      ],
+      "editor/title/context": [
+        {
+          "command": "yadm.track",
+          "when": "resourceScheme == file",
+          "group": "1_modification@10"
+        },
+        {
+          "command": "yadm.stopTracking",
+          "when": "resourceScheme == file",
+          "group": "1_modification@11"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Yadm",
+      "properties": {
+        "yadm.executablePath": {
+          "type": "string",
+          "default": "",
+          "scope": "machine",
+          "description": "Path to yadm. When empty, uses Git: Path if it points to yadm, otherwise resolves yadm from PATH."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "package": "vsce package",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/vscode": "1.85.0",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "24.x",
+    "@vscode/vsce": "^3.6.2",
+    "typescript-eslint": "^8.61.1",
+    "eslint": "^10.5.0",
+    "typescript": "^6.0.3",
+    "@vscode/test-cli": "^0.0.15",
+    "@vscode/test-electron": "^3.0.0"
+  },
+  "overrides": {
+    "diff": "^8.0.4",
+    "serialize-javascript": "^7.0.6"
+  }
+}
